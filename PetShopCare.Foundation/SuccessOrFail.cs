@@ -12,7 +12,7 @@
 // tipologia dell'errore per gli status code: dati non validi, entità non trovata ed errore interno
 // facciamo questi 3 che rappresentano gli errori di programmazione, potrei aggiungere altre categorie
 // switch sullo switch e in base alle categorie restituisci l'errore dettagliato
-public abstract record Error(string message);
+public record Error(string Message);
 
 public abstract record SuccessOrFail();
 
