@@ -30,6 +30,23 @@ namespace PetShopCare.Library.Managers
             return await GetByQuery(context, query);
         }
 
+        public static async Task<Result> Save(Context context, UserLight user)
+        {
+            var command = Sql($"""
+                INSERT INTO tblUsers (UserID, UserEmail, UserPassword)
+                VALUES ({user.UserID}, {user.UserEmail}, {user.UserPassword})
+                """);
+            try
+            {
+                await context.Connection.ExecuteAsync(command);
+                return new Success();
+            }
+            catch (Exception ex)
+            {
+                return new Fail(new Error(ErrorCategory.DatabaseError, ex.Message));
+            }
+        }
+
         private static async Task<Result<FoundOrNotFound<UserLight>>> GetByQuery(Context context, string query)
         {
             try
