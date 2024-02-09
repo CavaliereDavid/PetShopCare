@@ -2,4 +2,5 @@
 // Console.WriteLine("Hello, World!");
 using PetShopCare.Library.Test;
 
-await UserManagerTest.TestGetUserById();
+//await UserManagerTest.TestGetUserById();
+SqlTest.SqlTest1();

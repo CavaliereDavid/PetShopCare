@@ -36,7 +36,8 @@ public class UserController
     {
         // TODO: Aggiungere autorizzazione
         // PATTERN MATCHING
-        var res = await Library.Managers.UserManager.GetById(guid);
+        var context = ContextFactory.CreateContext();
+        var res = await Library.Managers.UserManager.GetById(context, guid);
         return res switch
         {
             Success<FoundOrNotFound<User>>(var foundOrNotFound) => foundOrNotFound switch
@@ -45,22 +46,7 @@ public class UserController
                 NotFound<User> => Utilities.CreateResponseNotFound(req),
                 _ => throw new ArgumentOutOfRangeException(),
             },
-            Fail<FoundOrNotFound<User>>(var error) => Utilities.CreateResponseInternalServerError(req, error.Message),
-            //Success<Found<User>>(var user)
-            //    => Utilities.CreateResponseOk(req, ConvertFromUserToUserDTO(user)),
-            //Success<NotFound<User>> => Utilities.CreateResponseNotFound(req),
-            //_ => throw new ArgumentOutOfRangeException(),
-        };
-
-        var output = res switch
-        {
-            Success<FoundOrNotFound<User>>(var foundOrNotFound) => foundOrNotFound switch
-            {
-                Found<User>(var user) => $"User: {user.Email}",
-                NotFound<User> => "User not found",
-                _ => throw new ArgumentOutOfRangeException(),
-            },
-            Fail<FoundOrNotFound<User>>(var error) => $"Fail{error.Message}",
+            Fail<FoundOrNotFound<User>>(var error) => Utilities.CreateResponseInternalServerError(req, error),
             _ => throw new ArgumentOutOfRangeException(),
         };
     }
@@ -100,6 +86,6 @@ public class UserController
      *  I post UPDATE e put INSERT
      *  res Success || Fail o
      */
-    [Function("PostUser")]
-    public async Task<HttpResponseData> InsertUser() { }
+    //[Function("PostUser")]
+    //public async Task<HttpResponseData> InsertUser() { }
 }

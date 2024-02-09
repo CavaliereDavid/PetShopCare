@@ -1,4 +1,5 @@
-﻿using PetShopCare.Foundation;
+﻿using Microsoft.EntityFrameworkCore;
+using PetShopCare.Foundation;
 using PetShopCare.Library.Models;
 
 namespace PetShopCare.Library.Managers;
@@ -22,15 +23,15 @@ public static class UserManager
             return new Fail<int>(new Error(ErrorCategory.DatabaseError, ex.Message));
         }
     }
-    public static async Task<Result<FoundOrNotFound<User>>> GetById(Guid userId)
+    public static async Task<Result<FoundOrNotFound<User>>> GetById(Context context ,Guid userId)
     {
-        // TODO implement this method
         try
         {
-            // TODO Scrivere la chiamata al database
-            //var user = new User();
-            //return new Success<FoundOrNotFound<User>>(new Found<User>(user));
-            return new Success<FoundOrNotFound<User>>(new NotFound<User>());
+            var user = await context.Database.Users.SingleOrDefaultAsync(u => u.Id == userId);
+            if (user != null)
+                return new Success<FoundOrNotFound<User>>(new Found<User>(user));
+            else 
+                return new Success<FoundOrNotFound<User>>(new NotFound<User>());
         }
         catch (Exception ex)
         {
@@ -38,11 +39,11 @@ public static class UserManager
         }
     }
 
-    public static async Task<Result> Save(User user)
+    public static async Task<Result> Save(Context context, User user)
     {
         try
         {
-            // TODO implement this method (chiamata al db)
+            await context.Database.SaveChangesAsync();
             return new Success();
         }
         catch (Exception ex)
@@ -51,14 +52,7 @@ public static class UserManager
         }
     }
 
-    // Sia per le insert che per le update
-    //public static async Task<SuccessOrFail> Save(User user)
-    //{
-    //    // TODO implement this method
-    //    throw new NotImplementedException();
-    //}
-
-    public static User Delete(Guid userId)
+    public static User Delete(Context context, Guid userId)
     {
         // TODO implement this method
         throw new NotImplementedException();

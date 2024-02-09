@@ -18,7 +18,7 @@ public enum ErrorCategory
     DatabaseError,
     //NotFound,
     InternalError,
-    CriticalError
+    //CriticalError
 }
 public record Error(ErrorCategory Category, string Message);
 
