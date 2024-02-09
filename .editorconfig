@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS8524: L'espressione switch non gestisce alcuni valori del relativo tipo di input (non è esaustiva) che interessa un valore di enumerazione senza nome.
+dotnet_diagnostic.CS8524.severity = none

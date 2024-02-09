@@ -1,0 +1,3 @@
+﻿Service dipende da library, library dipende da Foundation (anche service dipende da foundation)
+il test dipende sia dalla library che dalla foundation
+se vogliamo testare l'api possiamo usare postman
